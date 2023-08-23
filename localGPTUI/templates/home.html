@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
 
-    <link rel="icon" type="image" href="static\social_icons\favicon.png" />
+    <link rel="icon" type="image" href="static\social_icons\ai.png" />
     <script src="static\dependencies\jquery\3.6.0\jquery.min.js"></script>
     <script src="static\dependencies\bootstrap-5.1.3-dist\js\bootstrap.min.js"></script>
     <link
@@ -14,7 +14,7 @@
       href="static\dependencies\bootstrap-5.1.3-dist\css\bootstrap.min.css"
     />
 
-    <title>localGPT</title>
+    <title>Qarari AI Tool</title>
   </head>
   <script>
     function openFileSelection() {
@@ -77,7 +77,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
 
     body {
-      background-image: linear-gradient(90deg, #09203f, #0057ff);
+      background: #121212;
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -94,17 +94,13 @@
       margin: 0 auto;
     } 
 
-    .titlegpt{
-       font-size: 9vw;
-       color: white;
-       font-family: 'Play', sans-serif;
+    .imagegpt{
+       width: 450px;
+       object-fit: contain;
     } 
 
     .search {
       width: 100%;
-      box-shadow:
-        inset 0 1px 1px rgba(0, 0, 0, 0.075),
-        0 0 8px rgba(255, 0, 0, 0.6);
       background-color: #fff;
       padding: 4px;
       border-radius: 5px;
@@ -120,16 +116,14 @@
       width: 100%;
     }
 
-    .search-2 input {
-      height: 45px;
-      border: none;
-      width: 100%;
-      padding-left: 100px;
-      padding-right: 200px;
+    .search-2 textarea {
+      border: 1px solid lightgray;
+      width: 89%;
+      margin: 4px 0px 4px 4px;
     }
 
-    .search-2 input:focus {
-      border-color: none;
+    .search-2 textarea:focus {
+      border-color: lightgray;
       box-shadow: none;
       outline: none;
     }
@@ -144,18 +138,18 @@
 
     .search-2 button {
       position: absolute;
-      right: 100px;
+      right: 3px;
       top: 0px;
       border: none;
       height: 45px;
-      background-color: #ff0059;
+      background-color: #E0115F;
       color: #fff;
       width: 90px;
       border-radius: 4px;
     }
 
     .search-2 button:hover {
-      background: #ff0059;
+      background: #000000;
       color: #ffffff;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -163,11 +157,11 @@
 
     .search-2 .upload_button {
       position: absolute;
-      right: 1px;
-      top: 0px;
+      right: 3px;
+      top: 54px;
       border: none;
       height: 45px;
-      background-color: #ff0059;
+      background-color: #C21E56;
       color: #fff;
       width: 90px;
       border-radius: 4px;
@@ -192,21 +186,21 @@
     .default_button {
       border: none;
       height: 45px;
-      background-color: #ff0059;
+      background-color: #C21E56;
       color: #fff;
       width: 90px;
       border-radius: 4px;
     }
 
     .default_button:hover {
-      background: #ff0059;
+      background: #000000;
       color: #ffffff;
       transition: all 0.2s ease;
       cursor: pointer;
     }
 
     .upload_button:hover {
-      background: #ff0059;
+      background: #000000;
       color: #ffffff;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -214,18 +208,18 @@
 
     .search-2 .tutorial_button {
       position: absolute;
-      left: 1px;
-      top: 0px;
+      right: 3px;
+      top: 108px;
       border: none;
       height: 45px;
-      background-color: #ff0059;
+      background-color: #C21E56;
       color: #fff;
       width: 90px;
       border-radius: 4px;
     }
 
     .tutorial_button:hover {
-      background: #ff0059;
+      background: #000000;
       color: #ffffff;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -281,19 +275,19 @@
 
     .accordion-button:focus {
       z-index: 3;
-      border-color: #ff0059;
+      border-color: #121212;
       box-shadow: 0 0 0 0.25rem rgba(153, 50, 168, 0.25);
     }
 
     .accordion-button:not(.collapsed) {
-      color:#ff0059;
-      background-color: #f5b3cb;
+      color:#fff;
+      background-color: #121212;
       box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
     }
   </style>
   <body>
     <div class="container">
-      <div class="titlegpt">LocalGPT</div>
+      <div><img class="imagegpt" src="../static/logo/qarari.png" alt="qarariLogo"></div>
       <div class="search">
         <div class="row">
           <div class="col-md-12">
@@ -312,12 +306,14 @@
                   Tutorial
                 </button>
                 <i class="bx bxs-map"></i>
-                <input
-                  type="text"
+                <textarea
+                  rows="12"
                   name="user_prompt"
                   id="searchInput"
+                  maxlength="600"
+                  class="form-control"
                   placeholder="Tell a summary of what you want to know?"
-                />
+                ></textarea>
                 <button type="button" onclick="submitPromptForm()">
                   Search
                 </button>
@@ -499,21 +495,21 @@
             <ul>
               <li>
                 Click
-                <span style="background-color: #ff0059; color: white">Add</span> if
+                <span style="background-color: #C21E56; color: white">Add</span> if
                 you want to add the documents selected to your pre-existing
                 knowledge base.
               </li>
               <br />
               <li>
                 Click
-                <span style="background-color: #ff0059; color: white">Reset</span>
+                <span style="background-color: #C21E56; color: white">Reset</span>
                 if you want to reset your knowledge base, and then use your new
                 documents as your new knowledge base.
               </li>
               <br />
               <li>
                 Click
-                <span style="background-color: gray; color: white">Cancel</span>
+                <span style="background-color: #C21E56; color: white">Cancel</span>
                 if you don't want to make any changes.
               </li>
             </ul>
@@ -638,16 +634,16 @@
             >
               1. To upload documents for the app to ingest as its new knowledge
               base click the
-              <span style="background-color: #ff0059; color: white">Upload</span>
+              <span style="background-color: #C21E56; color: white">Upload</span>
               button.
               <br />
               2. Select the documents you want to serve as your new knowledge
               base to converse with.
               <br />
               3. Then you will be prompted with a confirmation to either
-              <span style="background-color: #ff0059; color: white">Add</span> the
+              <span style="background-color: #C21E56; color: white">Add</span> the
               documents to your knowledge base,
-              <span style="background-color: #ff0059; color: white">Reset</span>
+              <span style="background-color: #C21E56; color: white">Reset</span>
               your knowledge base with the documents you just selected, or
               <span style="background-color: gray; color: white">Cancel</span>
               the upload.
@@ -690,9 +686,9 @@
               >
               <br />
               3. Hit enter on your keyboard or click
-              <span style="background-color: #ff0059; color: white">Search</span>
+              <span style="background-color: #C21E56; color: white">Search</span>
               <br />
-              4. Wait while the LLM model consumes the prompt and prepares the
+              4. Wait while the Qarari consumes the prompt and prepares the
               answer.
               <br />
               5. Once done, it will print the answer and the 4 sources it used
