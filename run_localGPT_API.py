@@ -8,7 +8,8 @@ from auto_gptq import AutoGPTQForCausalLM
 from flask import Flask, jsonify, request
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-
+from langchain.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
 # from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline
 from run_localGPT import load_model
@@ -27,7 +28,7 @@ from werkzeug.utils import secure_filename
 
 from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY, MODEL_ID, MODEL_BASENAME
 
-DEVICE_TYPE = "cuda" if torch.cuda.is_available() else "cpu"
+DEVICE_TYPE = "cuda"
 SHOW_SOURCES = True
 logging.info(f"Running on: {DEVICE_TYPE}")
 logging.info(f"Display Source Documents set to: {SHOW_SOURCES}")
@@ -44,7 +45,7 @@ if os.path.exists(PERSIST_DIRECTORY):
 else:
     print("The directory does not exist")
 
-run_langest_commands = ["python", "ingest.py"]
+run_langest_commands = ["python3", "ingest.py"]
 if DEVICE_TYPE == "cpu":
     run_langest_commands.append("--device_type")
     run_langest_commands.append(DEVICE_TYPE)
@@ -64,14 +65,26 @@ DB = Chroma(
 
 RETRIEVER = DB.as_retriever()
 
+
+template = """Use the following pieces of context to answer the question at the end. If you don't know the answer,\
+just say that you don't know, don't try to make up an answer.
+
+{context}
+
+{history}
+Question: {question}
+Helpful Answer:"""
+prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
+memory = ConversationBufferMemory(input_key="question", memory_key="history")
+
 LLM = load_model(device_type=DEVICE_TYPE, model_id=MODEL_ID, model_basename=MODEL_BASENAME)
 
 QA = RetrievalQA.from_chain_type(
-    llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES
+    llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=True,chain_type_kwargs={"prompt": prompt, "memory": memory},
+
 )
 
 app = Flask(__name__)
-
 
 @app.route("/api/delete_source", methods=["GET"])
 def delete_source_route():
@@ -116,7 +129,7 @@ def run_ingest_route():
         else:
             print("The directory does not exist")
 
-        run_langest_commands = ["python", "ingest.py"]
+        run_langest_commands = ["python3", "ingest.py"]
         if DEVICE_TYPE == "cpu":
             run_langest_commands.append("--device_type")
             run_langest_commands.append(DEVICE_TYPE)
